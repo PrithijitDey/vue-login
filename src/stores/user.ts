@@ -16,7 +16,6 @@ const actions = {
   async getUser() {
     const user = await Request.getUser()
     if (user == null) return
-    console.log("in get user")
     state.name = user.name
     state.username = user.username
   },
@@ -28,7 +27,7 @@ const actions = {
     }
 
     state.name = user.name
-    state.username = username
+    state.username = user.username
     state.error = ''
 
     return true
