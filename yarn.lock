@@ -1474,11 +1474,6 @@
   optionalDependencies:
     "prettier" "^1.18.2"
 
-"@vue/devtools-api@^6.4.5":
-  "integrity" "sha512-JD5fcdIuFxU4fQyXUu3w2KpAJHzTVdN+p4iOX2lMWSHMOoQdMAcpFLZzm9Z/2nmsoZ1a96QEhZ26e50xLBsgOQ=="
-  "resolved" "https://registry.npmjs.org/@vue/devtools-api/-/devtools-api-6.4.5.tgz"
-  "version" "6.4.5"
-
 "@vue/eslint-config-prettier@^6.0.0":
   "integrity" "sha512-wFQmv45c3ige5EA+ngijq40YpVcIkAy0Lihupnsnd1Dao5CBbPyfCzqtejFLZX1EwH/kCJdpz3t6s+5wd3+KxQ=="
   "resolved" "https://registry.npmjs.org/@vue/eslint-config-prettier/-/eslint-config-prettier-6.0.0.tgz"
@@ -6100,6 +6095,11 @@
   "resolved" "https://registry.npmjs.org/num2fraction/-/num2fraction-1.2.2.tgz"
   "version" "1.2.2"
 
+"nvm@^0.0.4":
+  "integrity" "sha512-jvmyELykYcdyd0VCGY0E8Aqe5MngEasVvlPvrcJHbwBMUbVqa72mPdQuPzyTcykEtEx7jDrMY0QA5MoV+8EhgA=="
+  "resolved" "https://registry.npmjs.org/nvm/-/nvm-0.0.4.tgz"
+  "version" "0.0.4"
+
 "oauth-sign@~0.9.0":
   "integrity" "sha512-fexhUFFPTGV8ybAtSIGbV6gOkSv8UtRbDBnAyLQw4QPKkgNlsH2ByPGtMUqdWkos6YCRmAqViwgZrJc/mRDzZQ=="
   "resolved" "https://registry.npmjs.org/oauth-sign/-/oauth-sign-0.9.0.tgz"
@@ -8847,13 +8847,6 @@
     "vue-hot-reload-api" "^2.3.0"
     "vue-style-loader" "^4.1.0"
 
-"vue-router@^4.0.4":
-  "integrity" "sha512-DYWYwsG6xNPmLq/FmZn8Ip+qrhFEzA14EI12MsMgVxvHFDYvlr4NXpVF5hrRH1wVcDP8fGi5F4rxuJSl8/r+EQ=="
-  "resolved" "https://registry.npmjs.org/vue-router/-/vue-router-4.1.6.tgz"
-  "version" "4.1.6"
-  dependencies:
-    "@vue/devtools-api" "^6.4.5"
-
 "vue-style-loader@^4.1.0", "vue-style-loader@^4.1.2":
   "integrity" "sha512-0ip8ge6Gzz/Bk0iHovU9XAUQaFt/G2B61bnWa2tCcqqdgfHs1lF9xXorFbE55Gmy92okFT+8bfmySuUOu13vxQ=="
   "resolved" "https://registry.npmjs.org/vue-style-loader/-/vue-style-loader-4.1.2.tgz"
@@ -8867,7 +8860,7 @@
   "resolved" "https://registry.npmjs.org/vue-template-es2015-compiler/-/vue-template-es2015-compiler-1.9.1.tgz"
   "version" "1.9.1"
 
-"vue@^2 || ^3.0.0-0", "vue@^3.0.0", "vue@^3.2.0", "vue@3.0.4":
+"vue@^2 || ^3.0.0-0", "vue@^3.0.0", "vue@3.0.4":
   "integrity" "sha512-2o+AiQF8sAupyhbyl3oxVCl3WCwC/n5NI7VMM+gVQ231qvSB8eI7sCBloloqDJK6yA367EEtmRSeSCf4sxCC+A=="
   "resolved" "https://registry.npmjs.org/vue/-/vue-3.0.4.tgz"
   "version" "3.0.4"
@@ -8875,13 +8868,6 @@
     "@vue/compiler-dom" "3.0.4"
     "@vue/runtime-dom" "3.0.4"
     "@vue/shared" "3.0.4"
-
-"vue3-material@^1.0.8":
-  "integrity" "sha512-aNpj3MlmZSALYcS12g75SY4HF5aGabF915y6siaeEKiMp3iGptuzLdqcip4Cdt5NqocvnSeZcVHAPTlf2rumaA=="
-  "resolved" "https://registry.npmjs.org/vue3-material/-/vue3-material-1.0.8.tgz"
-  "version" "1.0.8"
-  dependencies:
-    "vue-router" "^4.0.4"
 
 "watchpack-chokidar2@^2.0.1":
   "integrity" "sha512-nCFfBIPKr5Sh61s4LPpy1Wtfi0HE8isJ3d2Yb5/Ppw2P2B/3eVSEBjKfN0fmHJSK14+31KwMKmcrzs2GM4P0Ww=="

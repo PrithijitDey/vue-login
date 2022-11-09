@@ -27,23 +27,16 @@
     </form>
   </div>
   <div v-else>
-    <Home :loggedUsername="loggedUsername" />
+    <Home :username="form.username" />
   </div>
 </template>
 <script lang="ts">
 import { defineComponent, reactive } from 'vue'
 import userStore from '@/stores/user'
 import Home from './components/home.vue'
-const Username = ''
+
 export default defineComponent({
   name: 'App',
-  data() {
-    console.log('data')
-
-    return {
-      loggedUsername: Username
-    }
-  },
   components: { Home },
 
   setup() {
@@ -53,14 +46,7 @@ export default defineComponent({
     })
 
     const onSubmit = () => {
-      setTimeout(() => {
-        console.log(form.username)
-
-        userStore.login(form.username, form.password)
-      }, 0)
-
-      form.username = ''
-      form.password = ''
+      userStore.login(form.username, form.password)
       console.log(form.username)
       return { checking: true, Username: form.username }
     }
