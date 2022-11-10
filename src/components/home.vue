@@ -3,49 +3,24 @@
     <div class="navigation"><navigation-panel /></div>
     <div class="header"><AppHeader :loggeduser="username" /></div>
   </div>
-  <div>
-    <table class="table">
-      <tr class="table-header">
-        <th>S/N</th>
-        <th>Username</th>
-        <th>Email</th>
-        <th>Group Role</th>
-      </tr>
-      <tr>
-        <td><div class="table-cell">1</div></td>
-        <td><div class="table-cell" contenteditable>claire</div></td>
-        <td>
-          <div class="table-cell" contenteditable>ksjdnfrkjfh@dkfng.com</div>
-        </td>
-        <td><div class="table-cell" contenteditable>tester</div></td>
-      </tr>
-      <tr>
-        <td><div class="table-cell">2</div></td>
-        <td><div class="table-cell" contenteditable>stephen</div></td>
-        <td>
-          <div class="table-cell" contenteditable>ksjdnfrkjfh@dkfng.com</div>
-        </td>
-        <td><div class="table-cell" contenteditable>manager</div></td>
-      </tr>
-      <tr>
-        <td><div class="table-cell">3</div></td>
-        <td><div class="table-cell" contenteditable>graham</div></td>
-        <td>
-          <div class="table-cell" contenteditable>ksjdnfrkjfh@dkfng.com</div>
-        </td>
-        <td><div class="table-cell" contenteditable>head</div></td>
-      </tr>
-    </table>
+  <div class="mounted">
+    <component :is="currentView" />
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent, onMounted } from 'vue'
-
+import NotFound from './NotFound.vue'
 import userStore from '@/stores/user'
 import NavigationPanel from './navigation-panel.vue'
 import AppHeader from './app-header.vue'
+import Table from './table.vue'
+import About from './about.vue'
 
+const routes: Record<string, any> = {
+  '/': Table,
+  '/about': About
+}
 export default defineComponent({
   props: ['username'],
   name: 'Home',
@@ -54,7 +29,22 @@ export default defineComponent({
     onMounted(userStore.getUser)
     return { userStore }
   },
-  components: { NavigationPanel, AppHeader }
+  components: { NavigationPanel, AppHeader },
+  data() {
+    return {
+      currentPath: window.location.hash
+    }
+  },
+  computed: {
+    currentView(): string {
+      return routes[this.currentPath.slice(1) || '/'] || NotFound
+    }
+  },
+  mounted() {
+    window.addEventListener('hashchange', () => {
+      this.currentPath = window.location.hash
+    })
+  }
 })
 </script>
 <style lang="scss" scoped>
@@ -74,28 +64,7 @@ export default defineComponent({
   width: 100vw;
   text-align: center;
 }
-.table {
-  margin: auto;
-  margin-top: 250px;
-  border-collapse: separate;
-}
-tr {
-  border-bottom: 2px solid;
-  border-color: rgb(29, 17, 17);
-}
-.table-header {
-  background-color: rgb(221, 223, 223);
-  height: 30px;
-  border-radius: 4px;
-  border: 1px solid;
-  border-color: #fff;
-}
-.table-cell {
-  width: 200px;
-  height: 30px;
-  text-align: center;
-  padding-top: 7px;
-  border: 1px solid;
-  border-color: black;
+.mounted {
+  margin-left: 300px;
 }
 </style>
