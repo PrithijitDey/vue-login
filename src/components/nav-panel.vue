@@ -1,10 +1,10 @@
 <template class="">
   <ul>
     <li>
-      <button class="button" @click="(e) => navToHome(e)">Home</button>
+      <button class="button" @click="e => navToHome(e)">Home</button>
     </li>
     <li>
-      <button class="button" @click="(e) => navToAbout(e)">About</button>
+      <button class="button" @click="e => navToAbout(e)">About</button>
     </li>
   </ul>
 
@@ -12,32 +12,38 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted } from "vue";
-import router from "../router";
+import { defineComponent, onMounted } from 'vue'
+import router from '../router'
+
 export default defineComponent({
-  name: "NavPanel",
+  name: 'NavPanel',
+
+  data: () => ({
+    params: router.currentRoute.value.params,
+    
+  }),
 
   methods: {
     Logout() {
-      console.log("logged out");
+      console.log('logged out')
     },
     navToHome(e: any) {
-      console.log(e);
-      router.push("/table");
+      console.log(e, this.params.username)
+      router.push(`/homepage/${this.params.username}`)
     },
     navToAbout(e: any) {
-      console.log(e);
-      router.push("/about");
+      console.log(e)
+      router.push(`/homepage/${this.params.username}/about`)
     },
     logout() {
-      router.push("/");
-    },
-  },
-});
+      router.push('/')
+    }
+  }
+})
 </script>
 
 <style lang="scss" scoped>
-@import "../scss/variables";
+@import '../scss/variables';
 
 ul {
   display: flex;

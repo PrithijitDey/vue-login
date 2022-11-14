@@ -46,6 +46,9 @@ export default defineComponent({
   background-color: rgb(221, 221, 221);
 }
 .mounted {
-  margin-left: 300px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
 }
 </style>

@@ -29,29 +29,28 @@
   </div> -->
 </template>
 <script lang="ts">
-import router from "@/router";
-import { RouteParams } from "vue-router";
-import { defineComponent, reactive } from "vue";
+import router from '@/router'
+import { defineComponent, reactive } from 'vue'
 /* eslint-disable */
 export default defineComponent({
-  name: "Login",
+  name: 'Login',
   components: {},
 
   setup() {
     const form = reactive({
-      username: "",
-      password: "",
-    });
+      username: '',
+      password: ''
+    })
 
     const onSubmit = () => {
-      console.log(form.username);
-      
-      router.push({ path: `/homepage/${form.username}` })
-    };
+      console.log(form.username)
 
-    return { form, onSubmit };
-  },
-});
+      router.push({ path: `/homepage/${form.username}` })
+    }
+
+    return { form, onSubmit }
+  }
+})
 </script>
 <style lang="scss" scoped>
 @import '../scss/variables';
