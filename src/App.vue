@@ -1,11 +1,25 @@
 <template>
-  <!-- <nav>
-    <router-link to="/dfjf">Home</router-link> |
-    <router-link to="/about">About</router-link>
-  </nav> -->
-  <router-view />
+  <v-app>
+    <v-main>
+      <router-view/>
+    </v-main>
+  </v-app>
 </template>
 
+<script lang="ts">
+import { defineComponent } from 'vue'
+
+
+export default defineComponent({
+  name: 'App',
+
+  data () {
+    return {
+      //
+    }
+  },
+})
+</script>
 <style lang="scss">
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
@@ -31,5 +45,13 @@ nav {
   margin: 0%;
   padding: 0%;
   box-sizing: border-box;
+}
+.vue-universal-modal {
+  /* Change dimmed color */
+  background-color: rgba(255, 255, 0, 0.3);
+}
+.vue-universal-modal-content {
+  /* Align to top (flex-direction property value is set to column) */
+  justify-content: flex-start;
 }
 </style>

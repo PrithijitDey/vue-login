@@ -6,53 +6,95 @@
         <th>Contact</th>
         <th>Country</th>
       </tr>
-      <tr>
-        <td>Alfreds Futterkiste</td>
-        <td>Maria Anders</td>
-        <td>Germany</td>
-      </tr>
-      <tr>
-        <td>Centro comercial Moctezuma</td>
-        <td>Francisco Chang</td>
-        <td>Mexico</td>
-      </tr>
-      <tr>
-        <td>Central Private Militia</td>
-        <td>Shang Chi</td>
-        <td>China</td>
-      </tr>
-      <tr>
-        <td>Western Saviour Ward</td>
-        <td>Steve Rogers</td>
-        <td>America</td>
-      </tr>
-      <tr>
-        <td>Strategic Homeland Security</td>
-        <td>Margarret Carter</td>
-        <td>England</td>
+      <tr
+        @click="(companyData = d), (showModal = true)"
+        v-for="d in dataArray"
+        :key="d.id"
+      >
+        <td>{{ d.company }}</td>
+        <td>{{ d.contact }}</td>
+        <td>{{ d.country }}</td>
       </tr>
     </table>
+
+    <Teleport to="body">
+      <modal  :companyData="companyData" :show="showModal" @close="showModal = false">
+        <template #header>
+          <h3>Company Details</h3>
+        </template>
+      </modal>
+    </Teleport>
   </div>
 </template>
 <script lang="ts">
 import { defineComponent } from 'vue'
+import Modal from './Modal.vue'
+
 export default defineComponent({
-  name: 'table'
+  name: 'table',
+  components: {
+    Modal
+  },
+  data() {
+    return {
+      showModal: false,
+      companyData:{},
+      dataArray: [
+        {
+          id: 1,
+          company: 'Alfreds Futterkiste',
+          contact: 'Maria Anders',
+          country: 'Germany'
+        },
+        {
+          id: 2,
+          company: 'Centro comercial Moctezuma',
+          contact: 'Francisco Chang',
+          country: 'Mexico'
+        },
+        {
+          id: 3,
+          company: 'Central Private Militia',
+          contact: 'Shang Chi',
+          country: 'China'
+        },
+        {
+          id: 4,
+          company: 'Western Saviour Ward',
+          contact: 'Steve Rogers',
+          country: 'America'
+        },
+        {
+          id: 5,
+          company: 'Strategic Homeland Security',
+          contact: 'Margarret Carter',
+          country: 'England'
+        }
+      ]
+    }
+  },
+  methods: {
+    // openModal(companyData: any) {
+    //   this.showModal = true
+    //   this.companyData = companyData.id
+    //   console.log('--------', companyData)
+    // }
+  }
 })
 </script>
 <style lang="scss" scoped>
 @import '../scss/variables';
 
-table{
+table {
   border-collapse: collapse;
   border: 1px solid grey;
-  }
-  tr{
-    line-height: 30px;
-    border-bottom:1px solid grey ;
-  }
-  th{
-    background-color: rgb(193, 190, 190);
-    width: 15rem;
-  }
+}
+tr {
+  line-height: 30px;
+  border-bottom: 1px solid grey;
+}
+th {
+  background-color: rgb(193, 190, 190);
+  width: 15rem;
+}
 </style>

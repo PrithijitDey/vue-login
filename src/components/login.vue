@@ -24,9 +24,6 @@
       <button class="button" type="submit">Login</button>
     </form>
   </div>
-  <!-- <div v-else>
-    <router-view />
-  </div> -->
 </template>
 <script lang="ts">
 import router from '@/router'
@@ -74,6 +71,7 @@ export default defineComponent({
 .input {
   width: 200px;
   height: 30px;
+  padding: 10px;
   border: 2px solid;
   border-radius: 4px;
   border-color: rgb(117, 170, 245);

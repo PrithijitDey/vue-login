@@ -1,32 +1,33 @@
 <template class="h-full w-full">
   <div class="homepage">
     <div class="navigation"><nav-panel /></div>
-    <div class="header"><AppHeader :loggeduser=" $route.params.username"/></div>
+    <div class="header"><AppHeader :loggeduser="$route.params.username" /></div>
   </div>
-  <div class="mounted"><router-view/></div>
+  <div class="mounted"><router-view /></div>
 </template>
 <script lang="ts">
-import { defineComponent } from "vue";
-import NavPanel from "./nav-panel.vue";
-import AppHeader from "./app-header.vue"
+import { defineComponent } from 'vue'
+import NavPanel from './nav-panel.vue'
+import AppHeader from './app-header.vue'
 
 export default defineComponent({
-  props: ["username"],
-  name: "homepage",
+  props: ['username'],
+  name: 'homepage',
 
-  components: { NavPanel,AppHeader },
+  components: { NavPanel, AppHeader },
   data() {
     return {
-      currentPath: window.location.hash,
-    };
-  },
-});
+      currentPath: window.location.hash
+    }
+  }
+})
 </script>
 <style lang="scss" scoped>
-@import "../scss/variables"; // $text-primary would be defined in that file
+@import '../scss/variables'; 
 
 .homepage {
   display: flex;
+  position: relative;
 }
 .navigation {
   background-color: rgb(37, 24, 24);
@@ -50,5 +51,8 @@ export default defineComponent({
   justify-content: center;
   align-items: center;
   height: 100vh;
+  width: calc(100% - 250px);
+  position: absolute;
+  left: 250px;
 }
 </style>

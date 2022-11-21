@@ -1,17 +1,18 @@
 <template>
-  <div class="home">
-    <!-- <Login msg="Welcome to Your Vue.js + TypeScript App" /> -->
-  </div>
+  <hello-world />
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
-import Login from "@/components/login.vue";
+import { defineComponent } from 'vue';
+
+// Components
+import HelloWorld from '../components/HelloWorld.vue';
 
 export default defineComponent({
-  name: "HomeView",
+  name: 'HomeView',
+
   components: {
-    // Login,
+    HelloWorld,
   },
 });
 </script>
