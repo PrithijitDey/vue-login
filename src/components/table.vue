@@ -5,9 +5,10 @@
         <th>Company</th>
         <th>Contact</th>
         <th>Country</th>
+        <th>Actions</th>
       </tr>
       <tr
-        @click="(companyData = d), (showModal = true)"
+        @click=";(companyData = d), (showModal = true)"
         v-for="d in dataArray"
         :key="d.id"
       >
@@ -18,7 +19,11 @@
     </table>
 
     <Teleport to="body">
-      <modal  :companyData="companyData" :show="showModal" @close="showModal = false">
+      <modal
+        :companyData="companyData"
+        :show="showModal"
+        @close="showModal = false"
+      >
         <template #header>
           <h3>Company Details</h3>
         </template>
@@ -38,7 +43,7 @@ export default defineComponent({
   data() {
     return {
       showModal: false,
-      companyData:{},
+      companyData: {},
       dataArray: [
         {
           id: 1,

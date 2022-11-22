@@ -1,7 +1,7 @@
 <template>
   <div class="header-container">
     <div class="header-text">
-      <h2>Welcome,{{loggeduser}}</h2>
+      <h2>Welcome,{{ loggeduser }}</h2>
       <div class="online"></div>
       <!-- <button class="btn btn-primary" @click="userStore.logout()">
       Logout
@@ -22,21 +22,19 @@ const getters = reactive({
 })
 export default defineComponent({
   props: ['loggeduser'],
-  name: 'Header',
-
+  name: 'Header'
 })
 </script>
 
 <style lang="scss" scoped>
-
-.header-text{
+.header-text {
   display: flex;
   align-items: center;
   justify-content: space-between;
   height: 66px;
   vertical-align: middle;
 }
-h2{
+h2 {
   margin-left: 30px;
 }
 .online {

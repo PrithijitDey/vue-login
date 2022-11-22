@@ -2,7 +2,17 @@
 export default {
   props: {
     show: Boolean,
-    companyData: <any> { id:Number,company: String, contact:String, country:String }
+    companyData: <any>{
+      id: Number,
+      company: String,
+      contact: String,
+      country: String
+    }
+  },
+  methods: {
+    reload() {
+      location.reload()
+    }
   }
 }
 </script>
@@ -16,17 +26,17 @@ export default {
             <slot name="header">Company Details</slot>
           </div>
           <div class="modal-body">
-            <p name="body" class="data">{{ companyData.company}}</p>
-            <br>
-            <p name="body" class="data">{{ companyData.contact }}</p>
+            <input name="body" v-model="companyData.company" class="data" />
+
+            <input name="body" v-model="companyData.contact" class="data" />
+
+            <input name="body" v-model="companyData.country" class="data" />
           </div>
           <div class="modal-footer">
-            <slot name="footer">
-              {{ companyData.country}}
-              <button class="modal-default-button" @click="$emit('close')">
-                OK
-              </button>
-            </slot>
+            <button class="modal-default-button" @click="reload">CANCEL</button>
+            <button class="modal-default-button" @click="$emit('close')">
+              SAVE
+            </button>
           </div>
         </div>
       </div>
@@ -42,7 +52,8 @@ export default {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(10px);
   display: table;
   transition: opacity 0.3s ease;
 }
@@ -70,14 +81,27 @@ export default {
 .modal-body {
   margin: 20px 0;
 }
-.data{
-  line-height: 10px;
+.data {
+  margin: 15px;
+  padding: 10px;
+  border: 1px solid #42b983;
+  border-radius: 5px;
+}
+.modal-footer {
+  padding: 20px;
+  text-align: center;
+  display: flex;
+  justify-content: space-around;
 }
 
 .modal-default-button {
-  float: right;
-  height: 20px;
-  width: 40px;
+  float: none;
+  height: 2rem;
+  width: 5rem;
+  border-radius: 5px;
+  border: 1px solid #42b983;
+  color: #fff;
+  background-color: #42b983;
 }
 
 /*

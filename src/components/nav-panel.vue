@@ -19,8 +19,7 @@ export default defineComponent({
   name: 'NavPanel',
 
   data: () => ({
-    params: router.currentRoute.value.params,
-    
+    params: router.currentRoute.value.params
   }),
 
   methods: {
