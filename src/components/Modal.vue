@@ -1,4 +1,6 @@
 <script lang="ts">
+import axios from 'axios'
+
 export default {
   props: {
     show: Boolean,
@@ -9,6 +11,18 @@ export default {
       country: String
     }
   },
+//   async EditItem(id:number) {
+//     try {
+//         await axios.patch(`${`http://localhost:3000/dataArray`}/${id}`, {
+//             boughtItem: true
+//         });
+//         let data = this.companyData
+//             return data;
+        
+//     } catch (error) {
+//         console.error(error);
+//     }
+// },
   methods: {
     reload() {
       location.reload()

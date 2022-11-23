@@ -7,14 +7,15 @@
         <th>Country</th>
         <th>Actions</th>
       </tr>
-      <tr
-        @click=";(companyData = d), (showModal = true)"
-        v-for="d in dataArray"
-        :key="d.id"
-      >
-        <td>{{ d.company }}</td>
-        <td>{{ d.contact }}</td>
-        <td>{{ d.country }}</td>
+      <tr v-for="d in dataArray" :key="d.id" :id="`row-${d.id}`">
+        <td @click=";(companyData = d), (showModal = true)">{{ d.company }}</td>
+        <td @click=";(companyData = d), (showModal = true)">{{ d.contact }}</td>
+        <td @click=";(companyData = d), (showModal = true)">{{ d.country }}</td>
+
+        <td>
+          <delete-icon @click="deleteData(d.id)" />
+          <download-icon @click="exportToPDF(d)" />
+        </td>
       </tr>
     </table>
 
@@ -34,56 +35,89 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 import Modal from './Modal.vue'
+import axios from 'axios'
+import Vue3Html2pdf from 'vue3-html2pdf'
+import { jsPDF } from 'jspdf'
 
 export default defineComponent({
   name: 'table',
   components: {
-    Modal
+    Modal,
+    Vue3Html2pdf
   },
   data() {
     return {
       showModal: false,
       companyData: {},
-      dataArray: [
-        {
-          id: 1,
-          company: 'Alfreds Futterkiste',
-          contact: 'Maria Anders',
-          country: 'Germany'
-        },
-        {
-          id: 2,
-          company: 'Centro comercial Moctezuma',
-          contact: 'Francisco Chang',
-          country: 'Mexico'
-        },
-        {
-          id: 3,
-          company: 'Central Private Militia',
-          contact: 'Shang Chi',
-          country: 'China'
-        },
-        {
-          id: 4,
-          company: 'Western Saviour Ward',
-          contact: 'Steve Rogers',
-          country: 'America'
-        },
-        {
-          id: 5,
-          company: 'Strategic Homeland Security',
-          contact: 'Margarret Carter',
-          country: 'England'
-        }
-      ]
+      dataArray: <Record<string, any>>[]
     }
   },
+  async created() {
+    try {
+      const res = await axios.get(`http://localhost:3000/dataArray`)
+      this.dataArray = res.data
+      console.log(res)
+    } catch (error) {
+      console.log(error)
+    }
+  },
+  async deleteData(id: number) {
+    try {
+      const res = await axios.delete(`http://localhost:3000/dataArray/${id}`)
+      this.dataArray = this.dataArray.filter(
+        (dataArray: any) => dataArray.id !== id
+      )
+      console.log(res)
+    } catch (error) {
+      console.log(error)
+    }
+  },
+
   methods: {
     // openModal(companyData: any) {
     //   this.showModal = true
     //   this.companyData = companyData.id
     //   console.log('--------', companyData)
     // }
+    deleteData(id: number) {
+      // window.alert("hi")
+      console.log('id----', id)
+      this.dataArray.splice(id - 1, 1)
+      // delete(this.dataArray[id])
+      console.log('---', this.dataArray)
+    },
+
+    exportToPDF(data: any) {
+      var doc = new jsPDF()
+      const row: any = []
+      const cols = ['Amount', 'Description']
+      const title = 'Sales details'
+
+      var elementHTML = document.getElementById(`row-${data.id}`) as HTMLElement
+      doc.setFont('times', 'bold')
+      doc.text('Company', 20, 10)
+      doc.text('Contact', 95, 10)
+      doc.text('Country', 170, 10)
+
+      doc.setFont('times', '')
+      doc.setFontSize(10)
+      doc.text(data.company, 15, 20)
+      doc.text(data.contact, 95, 20)
+      doc.text(data.country, 175, 20)
+      doc.save(`row-${data.id}.pdf`)
+      // doc.html(elementHTML, {
+      //   callback: function (doc) {
+
+      //   },
+      //   x: 15,
+      //   y: 15,
+      //   width: 170,
+      //   windowWidth: 650
+      // })
+    }
+    // generateReport () {
+    //         this.$refs.html2Pdf.generatePdf()
+    //     }
   }
 })
 </script>
