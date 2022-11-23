@@ -6,6 +6,9 @@
     <li>
       <button class="button" @click="e => navToAbout(e)">About</button>
     </li>
+    <li>
+      <button class="button" @click="e => navToNote(e)">Notes</button>
+    </li>
   </ul>
 
   <button class="logout-button" @click="logout()">Logout</button>
@@ -33,6 +36,10 @@ export default defineComponent({
     navToAbout(e: any) {
       console.log(e)
       router.push(`/homepage/${this.params.username}/about`)
+    },
+    navToNote(e: any) {
+      console.log(e)
+      router.push(`/homepage/${this.params.username}/notes`)
     },
     logout() {
       router.push('/')
