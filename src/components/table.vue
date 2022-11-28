@@ -1,24 +1,151 @@
 <template class="h-full w-full">
   <div class="table-container">
-    <table>
-      <tr>
-        <th>Company</th>
-        <th>Contact</th>
-        <th>Country</th>
-        <th>Actions</th>
-      </tr>
-      <tr v-for="d in dataArray" :key="d.id" :id="`row-${d.id}`">
-        <td @click=";(companyData = d), (showModal = true)">{{ d.company }}</td>
-        <td @click=";(companyData = d), (showModal = true)">{{ d.contact }}</td>
-        <td @click=";(companyData = d), (showModal = true)">{{ d.country }}</td>
+    <v-card-title class="search">
+      <v-text-field
+        class="search-text-field"
+        v-model="search"
+        append-icon="mdi-magnify"
+        label="Search"
+        single-line
+        hide-details
+      ></v-text-field>
+      <v-btn class="search-button" @click="searchTable">Search </v-btn>
+    </v-card-title>
+    <v-table class="table-component" id="myTable" fixed-header height="300px">
+      <thead>
+        <tr class="table-header">
+          <th class="text-center">
+            Company
+            <span>
+              <svg
+                class="company-asc"
+                @click="sortTableByCompanyAscending()"
+                xmlns="http://www.w3.org/2000/svg"
+                width="12"
+                height="12"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="grey"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M12 19V6M5 12l7-7 7 7" />
+              </svg>
+              <svg
+                class="company-desc"
+                @click="sortTableByCompanyDecending()"
+                xmlns="http://www.w3.org/2000/svg"
+                width="12"
+                height="12"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="grey"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M12 5v13M5 12l7 7 7-7" />
+              </svg>
+            </span>
+          </th>
+          <th class="text-center">
+            Contact
+            <span>
+              <svg
+                class="contact-asc"
+                @click="sortTableByContactAscending()"
+                xmlns="http://www.w3.org/2000/svg"
+                width="12"
+                height="12"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="grey"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M12 19V6M5 12l7-7 7 7" />
+              </svg>
+              <svg
+                class="contact-desc"
+                @click="sortTableByContactDecending()"
+                xmlns="http://www.w3.org/2000/svg"
+                width="12"
+                height="12"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="grey"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M12 5v13M5 12l7 7 7-7" />
+              </svg>
+            </span>
+          </th>
+          <th class="text-center">
+            Country
+            <span>
+              <svg
+                class="country-asc"
+                @click="sortTableByCountryAscending()"
+                xmlns="http://www.w3.org/2000/svg"
+                width="12"
+                height="12"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="grey"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M12 19V6M5 12l7-7 7 7" />
+              </svg>
+              <svg
+                class="country-desc"
+                @click="sortTableByCountryDecending()"
+                xmlns="http://www.w3.org/2000/svg"
+                width="12"
+                height="12"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="grey"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M12 5v13M5 12l7 7 7-7" />
+              </svg>
+            </span>
+          </th>
+          <th class="text-center">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="d in tableArray" :key="d.id" :id="`row-${d.id}`">
+          <td @click=";(companyData = d), (showModal = true)">
+            {{ d.company }}
+          </td>
+          <td @click=";(companyData = d), (showModal = true)">
+            {{ d.contact }}
+          </td>
+          <td @click=";(companyData = d), (showModal = true)">
+            {{ d.country }}
+          </td>
 
-        <td>
-          <delete-icon @click="deleteData(d.id)" />
-          <download-icon @click="exportToPDF(d)" />
-        </td>
-      </tr>
-    </table>
-
+          <td>
+            <delete-icon @click="deleteData(d.id)" />
+            <download-icon @click="exportToPDF(d)" />
+          </td>
+        </tr>
+      </tbody>
+    </v-table>
+    <label class="dropdown-label">Number of items:</label>
+    <select class="dropdown" @change="(e)=>filterItems(e)" >
+      <option value="10">10</option>
+      <option value="5">5</option>
+    </select>
     <Teleport to="body">
       <modal
         :companyData="companyData"
@@ -33,11 +160,12 @@
   </div>
 </template>
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, inject } from 'vue'
 import Modal from './Modal.vue'
 import axios from 'axios'
 import Vue3Html2pdf from 'vue3-html2pdf'
 import { jsPDF } from 'jspdf'
+import { ref, watch } from 'vue'
 
 export default defineComponent({
   name: 'table',
@@ -45,22 +173,40 @@ export default defineComponent({
     Modal,
     Vue3Html2pdf
   },
+  setup() {
+    const tabArray = inject('tableArray')
+    const lang = ref()
+
+    watch(lang, (newValue: number) => {
+      console.log(tabArray)
+
+      // console.log((tabArray as Record<string, any>[]).slice(0, newValue - 1))
+    })
+
+    return { lang }
+  },
   data() {
     return {
+      search: '',
+      itemsOnTable: 0,
       showModal: false,
       companyData: {},
-      dataArray: <Record<string, any>>[]
+      dataArray: <Record<string, any>>[],
+      tableArray: <Record<string, any>>[]
     }
   },
+
   async created() {
     try {
       const res = await axios.get(`http://localhost:3000/dataArray`)
       this.dataArray = res.data
+      this.tableArray = this.dataArray
       console.log(res)
     } catch (error) {
       console.log(error)
     }
   },
+
   async deleteData(id: number) {
     try {
       const res = await axios.delete(`http://localhost:3000/dataArray/${id}`)
@@ -82,7 +228,7 @@ export default defineComponent({
     deleteData(id: number) {
       // window.alert("hi")
       console.log('id----', id)
-      this.dataArray.splice(id - 1, 1)
+      this.dataArray.splice(id - 1)
       // delete(this.dataArray[id])
       console.log('---', this.dataArray)
     },
@@ -105,28 +251,89 @@ export default defineComponent({
       doc.text(data.contact, 95, 20)
       doc.text(data.country, 175, 20)
       doc.save(`row-${data.id}.pdf`)
-      // doc.html(elementHTML, {
-      //   callback: function (doc) {
+    },
+    sortTableByCompanyAscending() {
+      this.tableArray.sort(this.dynamicSortAscending('company'))
+    },
+    sortTableByContactAscending() {
+      this.tableArray.sort(this.dynamicSortAscending('contact'))
+    },
+    sortTableByCountryAscending() {
+      this.tableArray.sort(this.dynamicSortAscending('country'))
+    },
+    dynamicSortAscending(property: any) {
+      var sortOrder = 1
+      if (property[0] === '-') {
+        sortOrder = -1
+        property = property.substr(1)
+      }
+      return function (a: any, b: any) {
+        var result =
+          a[property] < b[property] ? -1 : a[property] > b[property] ? 1 : 0
 
-      //   },
-      //   x: 15,
-      //   y: 15,
-      //   width: 170,
-      //   windowWidth: 650
-      // })
+        return result * sortOrder
+      }
+    },
+    //descending order sorting functions..
+    sortTableByCompanyDecending() {
+      this.tableArray.sort(this.dynamicSortDecending('company'))
+    },
+    sortTableByContactDecending() {
+      this.tableArray.sort(this.dynamicSortDecending('contact'))
+    },
+    sortTableByCountryDecending() {
+      this.tableArray.sort(this.dynamicSortDecending('country'))
+    },
+    dynamicSortDecending(property: any) {
+      var sortOrder = 1
+      if (property[0] === '-') {
+        sortOrder = -1
+        property = property.substr(1)
+      }
+      return function (a: any, b: any) {
+        var result =
+          a[property] > b[property] ? -1 : a[property] < b[property] ? 1 : 0
+
+        return result * sortOrder
+      }
+    },
+    searchTable() {
+      const searchRegExp: RegExp = new RegExp(this.search, 'gi')
+
+      if (!this.search) {
+        this.tableArray = this.dataArray
+        return
+      }
+
+      this.tableArray = this.tableArray.filter((item: Record<string, any>) => {
+        return (
+          searchRegExp.test(item.company) ||
+          searchRegExp.test(item.contact) ||
+          searchRegExp.test(item.country)
+        )
+      })
+
+      console.table(this.tableArray)
+    },
+    filterItems(e:any) {
+      this.tableArray = this.dataArray;
+      console.log(this.tableArray = (this.tableArray).slice(0, e.target.value))
+      console.log(e.target.value);
+      
     }
-    // generateReport () {
-    //         this.$refs.html2Pdf.generatePdf()
-    //     }
   }
 })
 </script>
 <style lang="scss" scoped>
 @import '../scss/variables';
 
-table {
+.table-component {
   border-collapse: collapse;
   border: 1px solid grey;
+  border-radius: 0 5px 5px 5px;
+}
+.table-header {
+  background-color: rgb(193, 190, 190);
 }
 tr {
   line-height: 30px;
@@ -135,5 +342,75 @@ tr {
 th {
   background-color: rgb(193, 190, 190);
   width: 15rem;
+  text-align: center;
+  span {
+    visibility: hidden;
+  }
+}
+th:hover {
+  span {
+    visibility: visible;
+    cursor: pointer;
+  }
+}
+svg {
+}
+.search {
+  width: 30rem;
+  margin-left: -16px !important;
+  margin-bottom: -10px !important;
+  margin-right: -25px;
+  display: flex;
+  // justify-content: space-around;
+  // align-items: center;
+}
+.search-text-field {
+  border-top: 1px solid black;
+  border-left: 1px solid black;
+  border-radius: 5px 0 0 0;
+}
+.search-button {
+  height: 3.4rem !important;
+  border-top: 1px solid black;
+  border-right: 1px solid black;
+  border-radius: 0 5px 0 0;
+}
+.dropdown-container{
+
+}
+.dropdown {
+  position: absolute;
+  bottom: auto;
+  right: 145px;
+  width: 3.5rem;
+  height: 2rem;
+  padding: 5px;
+  text-align: center;
+  border: 1px solid grey;
+  border-radius: 5px;
+  margin-top: 10px;
+}
+span {
+  cursor: pointer;
+}
+option{
+  text-align: center;
+}
+.dropdown-label{
+  position: absolute;
+  bottom: auto;
+  right: 200px;
+  padding: 5px;
+  margin-top: 10px;
+
+}
+.table-component::-webkit-scrollbar {
+  background-color: transparent;
+  width: 10px;
+}
+.table-component:webkit-scrollbar-thumb {
+  background-color: rgb(190, 190, 190, 0.5);
+
+  border-radius: 5px;
 }
 </style>

@@ -19,6 +19,7 @@
     "vue3-html2pdf": "^1.1.2",
     "vue3-material": "^1.0.8",
     "vuedraggable": "^2.24.3",
+    "vuetify": "^3.0.2",
     "vuex": "^4.0.0"
   },
   "devDependencies": {

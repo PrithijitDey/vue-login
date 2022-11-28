@@ -54,4 +54,10 @@ nav {
   /* Align to top (flex-direction property value is set to column) */
   justify-content: flex-start;
 }
+.v-input__append{
+  display: none !important;  
+}
+select{
+  appearance: auto !important;
+}
 </style>
