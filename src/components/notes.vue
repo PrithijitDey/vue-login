@@ -14,8 +14,9 @@
           stroke-linejoin="round"
         >
           <line x1="12" y1="5" x2="12" y2="19"></line>
-          <line x1="5" y1="12" x2="19" y2="12"></line></svg
-        > Add Notes</v-btn
+          <line x1="5" y1="12" x2="19" y2="12"></line>
+        </svg>
+        Add Notes</v-btn
       >
     </header>
     <div
@@ -55,51 +56,27 @@ import router from '@/router'
 import { NodeTypes } from '@vue/compiler-core'
 import { defineComponent, reactive } from 'vue'
 
+type Note = {
+  id: number
+  text: string
+  x: number
+  y: number
+}
 /* eslint-disable */
 export default defineComponent({
   name: 'Login',
   components: {},
   data() {
-    return { notes: [{ id: 0, text: '1', x: 100, y: 200 }], elementID: Number }
+    return { notes: [] as Note[], elementID: Number }
   },
-  setup() {
-    // var dm = document.getElementById(`draggable`)
-    // if (localStorage.getItem('position_x') && localStorage.getItem('position_y')) {
-    //   dm!.style.left = 500 + 'px'
-    //   dm!.style.top = 100 + 'px'
-    // }
-    // function setPosition(event: any) {
-    //   console.log('hit --- ')
-    //   localStorage.setItem('position_x', JSON.stringify(event.clientX - 280))
-    //   localStorage.setItem('position_y', JSON.stringify(event.clientY))
-    //   return
-    // }
-  },
-  // drag_start(event:any) {
-  //               var style = window.getComputedStyle(event.target, null);
-  //               var str = (parseInt(style.getPropertyValue("left")) - event.clientX) + ',' + (parseInt(style.getPropertyValue("top")) - event.clientY) + ',' + event.target.id;
-  //               event.dataTransfer.setData("Text", str);
-  //           },
+  setup() {},
 
-  // drop(event: any) {
-  //   var offset = event.dataTransfer.getData('Text').split(',')
-  //   var dm = document.getElementById(offset[2])
-  //   dm!.style.left = event.clientX + parseInt(offset[0], 10) + 'px'
-  //   dm!.style.top = event.clientY + parseInt(offset[1], 10) + 'px'
-  //   event.preventDefault()
-  //   return false
-  // },
-
-  // drag_over(event: any) {
-  //   event.preventDefault()
-  //   return false
-  // },
   methods: {
     addNote() {
       console.log('hitt')
       this.notes.push({
         id: this.notes.length,
-        text: `${this.notes.length + 1}`,
+        text: '',
         x: 100,
         y: 200
       })
@@ -115,8 +92,19 @@ export default defineComponent({
       console.log('--- dragEnd', id)
     },
     editNote(id: any, newX: any, newY: any) {
-      this.notes[id].x = newX - 280
-      this.notes[id].y = newY
+      if (newX > 280 && newY > 130) {
+        this.notes[id].x = newX - 280
+        this.notes[id].y = newY
+      } else if (newX < 280 && newY > 130) {
+        this.notes[id].x = 0
+        this.notes[id].y = newY
+      } else if (newX > 280 && newY < 130) {
+        this.notes[id].x = newX - 280
+        this.notes[id].y = 130
+      } else {
+        this.notes[id].x = 0
+        this.notes[id].y = 130
+      }
     }
   }
 })
@@ -125,18 +113,19 @@ export default defineComponent({
 @import '../scss/variables';
 
 .board {
-  height: 90vh;
+  // height: 90vh;
   margin-top: 65px;
   width: 85vw;
   // border: 10px solid rgb(197, 197, 197);
   border-radius: 5px;
 }
 .add-notes-header {
-  padding: 12px;
+  padding: 12px 0px 12px 30px;
   height: 60px;
+  text-align: start;
 }
 .notes-container {
-  height: 100%;
+  height: calc(100vh - 130px);
   width: 100%;
   background-color: bisque;
   border-radius: 5px;
