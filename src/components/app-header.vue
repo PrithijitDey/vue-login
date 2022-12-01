@@ -1,7 +1,7 @@
 <template>
   <div class="header-container">
     <div class="header-text">
-      <h2>Welcome,{{ loggeduser }}</h2>
+      <h2 class="app-heading">Welcome,{{ loggeduser }}</h2>
       <div class="online"></div>
       <!-- <button class="btn btn-primary" @click="userStore.logout()">
       Logout
@@ -43,5 +43,25 @@ h2 {
   background-color: green;
   border-radius: 15px;
   margin-right: 30px;
+}
+.app-heading {
+  background-color: rgb(221, 221, 221);
+  animation-name: example;
+  animation-duration: 4s;
+  // animation-delay: -0.5s;
+
+}
+@keyframes example {
+  from {
+    opacity: 0;
+  }
+  to {
+    duration: 1.5;
+        opacity: 1;
+        y: 0;
+        delay: 1.3;
+        
+        stagger: 0.1;
+  }
 }
 </style>

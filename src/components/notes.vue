@@ -1,7 +1,7 @@
 <template>
   <div class="board">
-    <header class="add-notes-header">
-      <v-btn depressed color="primary" @click="addNote"
+    <header id="heading" class="add-notes-header">
+      <v-btn class="add-btn" depressed color="primary" @click="addNote"
         ><svg
           xmlns="http://www.w3.org/2000/svg"
           width="18"
@@ -46,6 +46,7 @@
           class="note-input"
           placeholder="Type something..."
           :value="note.text"
+          @blur="(e) => editNoteText(note.id, e)"
         ></textarea>
       </div>
     </div>
@@ -54,7 +55,8 @@
 <script lang="ts">
 import router from '@/router'
 import { NodeTypes } from '@vue/compiler-core'
-import { defineComponent, reactive } from 'vue'
+import { defineComponent, onMounted, reactive } from 'vue'
+import gsap from 'gsap'
 
 type Note = {
   id: number
@@ -62,6 +64,7 @@ type Note = {
   x: number
   y: number
 }
+
 /* eslint-disable */
 export default defineComponent({
   name: 'Login',
@@ -69,6 +72,7 @@ export default defineComponent({
   data() {
     return { notes: [] as Note[], elementID: Number }
   },
+
   setup() {},
 
   methods: {
@@ -82,6 +86,7 @@ export default defineComponent({
       })
       console.log(this.notes)
     },
+
     onDropEvent(e: any) {
       console.log(e)
       console.log(this.elementID)
@@ -105,7 +110,36 @@ export default defineComponent({
         this.notes[id].x = 0
         this.notes[id].y = 130
       }
+    },
+    editNoteText(id:any , e:any){
+      this.notes[id].text = e.target.value;
     }
+  },
+  mounted() {
+    gsap.to("#heading", {
+      duration: 1.5,
+      x: 0,
+    });
+
+    console.log('hi onmounte')
+
+    gsap.fromTo(
+      '.add-btn',
+      {
+        opacity: 0,
+      visibility: 'hidden'
+      },
+      {
+        duration: 1.5,
+        opacity: 1,
+        y: 0,
+        delay: 1.3,
+        ease: 'Circ.easeOut',
+        stagger: 0.1,
+        visibility: 'visible'
+
+      }
+    )
   }
 })
 </script>
